@@ -1,4 +1,14 @@
+###########################################
+# FORMAT DATA
+#
+#
+#
+#
+###########################################
+
+
 import pandas as pd
+from pathlib import Path
 #import plotly as py
 #import plotly.figure_factory as ff
 
@@ -9,9 +19,9 @@ import plotly.figure_factory as ff
 #test
 #import numpy as np
 
-
-init_notebook_mode(connected=True)  # initiate notebook for offline plot
-
+#job_number="LAW010"
+#init_notebook_mode(connected=True)  # initiate notebook for offline plot
+workpath = Path("../work")
 
 #define the fixed width spaces for the dataframe
 colspecs = [(0,19),(20,25),(26,34),(64,71),(157,167)]
@@ -20,7 +30,7 @@ colspecs = [(0,19),(20,25),(26,34),(64,71),(157,167)]
 header_name = ["TIME", "EVENT", "JOB NAME", "DURATION" ,"OUTCOME"]
 
 #set to pandas fixed width format 
-uh_history = pd.read_fwf('./data/History_2018_04.log',colspecs=colspecs,skiprows=3,names = header_name)
+uh_history = pd.read_fwf('../data/History_2018_04.log',colspecs=colspecs,skiprows=3,names = header_name)
 
 #convert Time column into datetime data type
 uh_history['TIME'] = pd.to_datetime(uh_history.TIME)
@@ -39,6 +49,10 @@ uh_core_jobs_history = uh_core_jobs_history[uh_core_jobs_history['JOB NAME'].isi
 #SUBTRACT DURATION FROM END TIME
 uh_core_jobs_history['START TIME'] = uh_core_jobs_history['TIME'] - uh_core_jobs_history['DURATION']
 uh_core_jobs_history['END TIME'] = uh_history['TIME']
+
+#uh_history.close()
+
+uh_core_jobs_history.to_csv('../work/uh_core_jobs_history.csv')
 
 #print(uh_core_jobs_history)
 
